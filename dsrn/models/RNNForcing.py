@@ -1,7 +1,5 @@
 
-from typing import Optional, List
-
-import numpy as np
+from typing import Optional
 
 import torch
 import torch.nn as nn

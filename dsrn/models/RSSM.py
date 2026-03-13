@@ -3,8 +3,6 @@
 
 import torch
 import torch.nn as nn
-import torch.jit as jit
-
 
 from .DilatedCNNEncoder import DilatedCNNEncoder
 from . import temporal_masking

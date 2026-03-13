@@ -10,7 +10,7 @@ import scipy.ndimage as ndi
 
 import torch
 
-from . import utils, models
+from . import utils
 
 
 def laplace_smoothing(x, n, alpha):
@@ -113,9 +113,12 @@ def get_names_longterm(config):
     isi = ['disi', 'isi_nout']
 
     variant = config['variant']
-    if   variant == 'ecg':    return default + isi
-    elif variant == 'neuron': return default + isi
-    else: return default
+    if   variant == 'ecg':
+        return default + isi
+    elif variant == 'neuron':
+        return default + isi
+    else:
+        return default
 
 
 def compare_longterm_data(variant, x1, x2):

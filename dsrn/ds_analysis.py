@@ -117,7 +117,7 @@ def calculate_forced_lyap(model, x):
 def find_attractors(model, npoints, nwarmup, nt, nlyap, x=None, tolfp=1e-5, tollc=1e-2, tolca=1e-2, to_numpy=True):
 
     # Initial conditions
-    if x == None:
+    if x is None:
         # Uniform from the whole state space
         z0 = 2*torch.rand(npoints, model.n_states) - 1.
     else:
@@ -168,6 +168,6 @@ def find_attractors(model, npoints, nwarmup, nt, nlyap, x=None, tolfp=1e-5, toll
     attractors = sorted(attractors, key=lambda x: x[2], reverse=True)
             
     if to_numpy:
-        return [(t, l, n, z.cpu().numpy()) for (t,l,n,z) in attractors]
+        return [(t, lmax, n, z.cpu().numpy()) for (t, lmax, n, z) in attractors]
     else:
-        return attractors      
+        return attractors

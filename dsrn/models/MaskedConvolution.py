@@ -13,7 +13,7 @@
 #   limitations under the License.
 
 import copy
-from typing import Any, Dict, Optional, Tuple, Union
+from typing import Any, Dict, Optional, Tuple
 
 import torch
 from torch import nn

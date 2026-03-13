@@ -156,7 +156,8 @@ def axtext(ax, text, **args):
     defargs.update(args)
     plt.sca(ax)
     plt.text(0.5, 0.5, text, **defargs)
-    plt.xlim([0, 1]); plt.ylim([0, 1])
+    plt.xlim([0, 1])
+    plt.ylim([0, 1])
     plt.axis('off')
 
 

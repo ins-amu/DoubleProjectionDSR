@@ -188,8 +188,6 @@ class DilatedCNNEncoder(nn.Module):
     def dummy_call(self, x, nsamples):
         bs, nt, nobs = x.shape
 
-        nlast = self.net[-1].conv1.out_channels
-
         if self.output == 'point':
             return torch.zeros((bs*nsamples, nt, 0))
 

@@ -1,5 +1,4 @@
 import os
-import sys
 import argparse
 
 import numpy as np
@@ -27,7 +26,6 @@ def plot_samples(model, x, filename):
         os.makedirs(direc)
 
     nsamples = min(x.shape[0], 4)
-    bs = x.shape[0]
     nt = max(x.shape[1], 100)
 
     model.eval()
@@ -158,17 +156,15 @@ def plot_isi(ax1, ax2, x1, x2, index=0, height=2, prominence=1, lims='ecg'):
     plt.scatter(peaks1, x1[peaks1,index], color='r', s=20, ec=color_dat)
     plt.scatter(peaks2, x2[peaks2,index], color='r', s=20, ec=color_sim)
 
-    disi = stats.wasserstein_distance(isi1, [np.mean(isi1)])
-
     mu = np.mean(isi1)
 
-    if   lims == 'ecg':    lo,hi = 0.5*mu, 1.5*mu
-    elif lims == 'neuron': lo,hi = 0, 1.2*np.max(isi1)
+    if   lims == 'ecg':
+        lo,hi = 0.5*mu, 1.5*mu
+    elif lims == 'neuron':
+        lo,hi = 0, 1.2*np.max(isi1)
 
     plt.sca(ax1)
     h1 = plt.hist(isi1, bins=np.linspace(lo, hi, 61), density=True, color=color_dat, alpha=0.5)
-    h2 = plt.hist(isi2, bins=np.linspace(lo, hi, 61), density=True, color=color_sim, alpha=0.5)
-
     xisi = np.linspace(lo, hi, 601)
 
     if len(isi1) > 0:
@@ -196,11 +192,13 @@ def plot_isi(ax1, ax2, x1, x2, index=0, height=2, prominence=1, lims='ecg'):
     mu = np.mean(val1)
     sd = np.std(val1)
 
-    if lims == 'ecg':      lo,hi = 0.8*mu, 1.2*mu
-    elif lims == 'neuron': lo,hi = mu-5*sd, mu+5*sd
+    if lims == 'ecg':
+        lo,hi = 0.8*mu, 1.2*mu
+    elif lims == 'neuron':
+        lo,hi = mu-5*sd, mu+5*sd
 
-    h1 = plt.hist(val1, bins=np.linspace(lo, hi, 61), density=True, color=color_dat, alpha=0.5, orientation='horizontal')
-    h2 = plt.hist(val2, bins=np.linspace(lo, hi, 61), density=True, color=color_sim, alpha=0.5, orientation='horizontal')
+    h1 = plt.hist(val1, bins=np.linspace(lo, hi, 61),
+                  density=True, color=color_dat, alpha=0.5, orientation='horizontal')
 
     xval = np.linspace(lo, hi, 601)
 
@@ -227,13 +225,12 @@ def plot_isi(ax1, ax2, x1, x2, index=0, height=2, prominence=1, lims='ecg'):
 def plot_details_old(datafile, simfile, outfile, dataset):
     xdat = np.load(datafile)['x_test'][0,:,:]
     xsim = np.load(simfile)[:,:]
-    # nt, n = xdat.shape
-    nt = xdat.shape[0]
+
     n = min(xdat.shape[1], xsim.shape[1])
     xdat = xdat[:,0:n]
     xsim = xsim[:,0:n]    
 
-    fig = plt.figure(figsize=(16,2*n+4), dpi=200)
+    plt.figure(figsize=(16,2*n+4), dpi=200)
 
     gs = gridspec.GridSpec(ncols=3, nrows=2, left=0.07, right=0.98, top=0.98, bottom=0.5, width_ratios=[2,2,1])
 
@@ -293,7 +290,6 @@ def _generate_longterm(model, x, config, noise):
 def plot_predictions(ax, x, model, config, noise):
     x = x[None,:,:]
 
-    variables = config['variables']
     n_embed  = config['n_embed']
     n_pred = max(config['pe_n'])
     nsamples = config['n_samples'] if noise else 1
@@ -327,7 +323,7 @@ def plot_details(data_file, model_format, config_file, model_file, eval_config, 
     x = utils.load_datafile(data_file).astype(np.float32)[0]
 
     n = len(eval_config['variables'])
-    fig = plt.figure(figsize=(16,2*n+6), dpi=200)
+    plt.figure(figsize=(16,2*n+6), dpi=200)
 
     # Load model
     try:

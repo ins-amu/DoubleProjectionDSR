@@ -147,7 +147,8 @@ def train_model(config, gpu=None):
         iter_test  = iter(dataloader_test)
 
         for i in range(iters_per_epoch):
-            if iteration > n_iter: break
+            if iteration > n_iter:
+                break
 
             # Training
             model.train()
@@ -163,13 +164,15 @@ def train_model(config, gpu=None):
                 torch.nn.utils.clip_grad_norm_(model.parameters(), config['training']['gradient_clip'])
 
             opt.step()
-            if sched: sched.step()
+            if sched:
+                sched.step()
 
             if model.causal_encoder is not None:
                 celoss = model.ce_loss(x)
                 celoss.backward()
                 opt2.step()
-                if sched2: sched2.step()
+                if sched2:
+                    sched2.step()
                 losses[iteration,2] = celoss.detach().cpu().numpy()
 
             # Test
@@ -202,41 +205,6 @@ def train_model(config, gpu=None):
             iteration += 1
 
     fh.close()
-
-
-def profile_model(config):
-    utils.seed_all(config['training']['seed'])
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    torch.set_default_device(device)
-
-    data = np.load(config['data']['path'])
-
-    model = models.DPDSR(**config['model'])
-    model.to(device)
-
-    variables = None if ('use_vars' not in config['data']) else config['data']['use_vars']
-    dataset_train = utils.TsDataset(data['x_train'], nsplit=config['data']['nsplit'],
-                                    subsample=config['data']['subsample'], variables=variables)
-    dataset_test  = utils.TsDataset(data['x_test'],  nsplit=config['data']['nsplit'],
-                                    subsample=config['data']['subsample'], variables=variables)
-
-    batch_size = config['data']['batch_size']
-    forcing_interval = config['training']['forcing_interval']
-
-    x = dataset_train[0:batch_size]
-    x = x.to(device)
-
-
-    # Warmup
-    loss = model.loss(x, forcing_interval)
-
-    with torch.profiler.profile(activities=[torch.profiler.ProfilerActivity.CPU, torch.profiler.ProfilerActivity.CUDA],
-                                with_stack=True, profile_memory=True) as prof:
-        for i in range(0, 1):
-            loss = model.loss(x, forcing_interval)
-
-    print(prof.key_averages().table(sort_by='self_cpu_time_total', row_limit=20))
-
 
 
 def correct_old_config(config):

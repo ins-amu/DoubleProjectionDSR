@@ -7,7 +7,7 @@ sys.path.append(".")
 import numpy as np
 import torch
 
-from dsrn import utils
+from dpdsr import utils
 
 def generate_data(data_file, config_file, model_file, no_noise=False):
 

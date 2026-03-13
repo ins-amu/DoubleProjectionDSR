@@ -10,7 +10,7 @@ import torch
 
 
 sys.path.append(".")
-from dsrn import models, plotting, utils
+from dpdsr import models, plotting, utils
 
 
 

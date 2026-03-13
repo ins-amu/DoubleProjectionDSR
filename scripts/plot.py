@@ -5,7 +5,7 @@ sys.path.append(".")
 
 
 
-from dsrn import utils, plotting
+from dpdsr import utils, plotting
 
 
 if __name__ == "__main__":

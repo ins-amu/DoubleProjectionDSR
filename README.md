@@ -3,7 +3,7 @@
 # Double projection for reconstructing dynamical systems: between stochastic and deterministic regimes
 
 
-This repository contains the code and data associated with the paper [[1]](#references).
+This repository contains the code and data associated with the paper by [Sip et al. (2026)](#references).
 In the paper, we evaluate the capabilities of several methods for dynamical system reconstruction from data, and we propose a novel variant from the dynamical VAE family named **double projection dynamical system reconstruction** (DPDSR). In particular, we focus on the analysis of the discovered dynamical systems, the role of the noise in the systems, and the nature of their attractors. 
 
 <p align="center">
@@ -55,4 +55,4 @@ The code is licensed under the MIT license.
 
 ### References
 
-[1] Sip, V., Breyton, M., Petkoski, S., & Jirsa, V. (2026). Double projection for reconstructing dynamical systems: between stochastic and deterministic regimes. arXiv preprint arXiv:2510.01089. https://doi.org/10.48550/arXiv.2510.01089
+Sip, V., Breyton, M., Petkoski, S., & Jirsa, V. (2026). Double projection for reconstructing dynamical systems: between stochastic and deterministic regimes. arXiv preprint arXiv:2510.01089. https://doi.org/10.48550/arXiv.2510.01089

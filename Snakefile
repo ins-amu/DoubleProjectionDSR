@@ -9,8 +9,8 @@ import glob
 import pandas as pd
 import torch
 
-from dsrn.evaluate_model import evaluate_model
-from dsrn.plotting import plot_details
+from dpdsr.evaluate_model import evaluate_model
+from dpdsr.plotting import plot_details
 
 envvars:
     "CONF",

@@ -1,0 +1,6 @@
+
+
+data/
+run/
+__pycache__/
+.snakemake/

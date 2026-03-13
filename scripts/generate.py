@@ -18,18 +18,8 @@ def generate_data(data_file, config_file, model_file, no_noise=False):
     dataset_test  = utils.TsDataset(data['x_test'],  chunk_size=None,
                                     subsample=config['data']['subsample'], variables=variables)
 
-    model_name = config['model'].pop('model', 'dsrn')
-    if model_name == 'dsrn':
-        model = models.DPDSR(**config['model'])
-    elif model_name == 'dkf':
-        model = models.DKF(**config['model'])
-    elif model_name == 'arlstm':
-        model = models.ARLSTMModel(**config['model'])
-    else:
-        raise ValueError(f"Unknown model {model_name}")
-
-    model.load_state_dict(torch.load(model_file, weights_only=True))
-    model.eval()
+    model = utils.load_model_dsrn(config_file, model_file)
+    model_name = model._name
 
     torch.set_grad_enabled(False)
 
@@ -49,6 +39,9 @@ def generate_data(data_file, config_file, model_file, no_noise=False):
     elif model_name == 'arlstm':
         z0 = model.get_latent_state_last(x[:,0:n_encode,:])
         xbar = model.sample(z0, nt, noise=with_noise).detach().cpu().numpy()
+    elif model_name == 'rssm':
+        z0 = model.get_latent_state(x[:,0:n_encode,:])[:,n_encode//2,:]
+        xbar = model.sample(z0, nt=nt+ntwarmup, noise=with_noise, nsamples=nsamples).detach().cpu().numpy()
     else:
         raise ValueError(f"Unknown model {model_name}")
 
